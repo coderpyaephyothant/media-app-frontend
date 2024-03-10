@@ -1,24 +1,20 @@
 <template>
   <!-- Whats New Start -->
-        <section class="whats-news-area pt-50 pb-20">
+        <section class="whats-news-area px-0 py-0 mx-0 my-0">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
+                <div class="row" >
+                    <div class="col-lg-12" style="padding:30px">
                         <div class="row d-flex justify-content-between">
                             <div class="col-lg-3 col-md-3">
-                                <div class="section-tittle mb-30">
-                                    <h3>Whats New</h3>
-                                </div>
                             </div>
                             <div class="col-lg-9 col-md-9">
                                 <div class="properties__button">
                                     <!--Nav Button  -->
-                                    <nav>
-                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="details.htmlnav-home" role="tab" aria-controls="nav-home" aria-selected="true">All</a
+                                        <div class=" nav-tabs myColor"  id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active myTextColor" id="nav-home-tab" data-toggle="tab" href="details.htmlnav-home" role="tab" aria-controls="nav-home" aria-selected="true">All</a
                         >
                         <a
-                          class="nav-item nav-link"
+                          class="nav-item nav-link myTextColor"
                           id="nav-profile-tab"
                           data-toggle="tab"
                           href="details.htmlnav-profile"
@@ -28,7 +24,7 @@
                           >Lifestyle</a
                         >
                         <a
-                          class="nav-item nav-link"
+                          class="nav-item nav-link myTextColor"
                           id="nav-contact-tab"
                           data-toggle="tab"
                           href="details.htmlnav-contact"
@@ -38,7 +34,7 @@
                           >Travel</a
                         >
                         <a
-                          class="nav-item nav-link"
+                          class="nav-item nav-link myTextColor"
                           id="nav-last-tab"
                           data-toggle="tab"
                           href="details.htmlnav-last"
@@ -48,7 +44,7 @@
                           >Fashion</a
                         >
                         <a
-                          class="nav-item nav-link"
+                          class="nav-item nav-link myTextColor"
                           id="nav-Sports"
                           data-toggle="tab"
                           href="details.htmlnav-nav-Sport"
@@ -58,7 +54,7 @@
                           >Sports</a
                         >
                         <a
-                          class="nav-item nav-link"
+                          class="nav-item nav-link myTextColor"
                           id="nav-technology"
                           data-toggle="tab"
                           href="details.htmlnav-techno"
@@ -68,7 +64,6 @@
                           >Technology</a
                         >
                       </div>
-                    </nav>
                     <!--End Nav Button  -->
                   </div>
                 </div>
@@ -86,21 +81,16 @@
                     >
                       <div class="whats-news-caption">
                         <div class="row">
-                          <div class="col-lg-6 col-md-6">
-                            <div class="single-what-news mb-100">
-                              <div class="what-img">
-                                <img
-                                  src="assets/img/news/whatNews2.jpg"
-                                  alt=""
-                                />
-                              </div>
-                              <div class="what-cap">
-                                <span class="color1">Night party</span>
-                                <h4>
-                                  <a href="details.html"
-                                    >Welcome To The Best Model Winner Contest</a
-                                  >
-                                </h4>
+
+                          <!-- simple card bootsrap -->
+                          <div class="d-flex flex-wrap"> 
+                            <div class="card bshadow" style="width:280px; height:380px; margin:5px" v-for="(post,index) in postData" :key="index" >
+                              <div class="bg-success" style="height:50%">
+                                <img class="" :src="post.image" alt="img" style="width:100%;height:100%">
+                                  </div>
+                              <div class="card-body" style="height:50%;overflow: hidden;">
+                                <h5 class="card-title">{{post.title}}</h5>
+                                <p class="card-text" style="">{{post.description}}</p>
                               </div>
                             </div>
                           </div>
@@ -155,5 +145,17 @@
 <script src="../js/homePage.js"></script>
 
 <style scoped>
-
+.truncate-text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 4; /* Number of lines to show */
+    }
+.bshadow{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.myColor{
+        background-color: #014f86 !important;
+      }
 </style>

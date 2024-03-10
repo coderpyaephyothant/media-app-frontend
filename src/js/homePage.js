@@ -2,7 +2,7 @@ import axios from "axios"
 export default {
 data(){
     return {
-        apiData: [],
+        postData: [],
     }
 },
 mounted(){
@@ -14,8 +14,16 @@ methods: {
 
       axios.get(apiUrl)
         .then(response => {
-          this.apiData = response.data;
-          console.log('apiData',this.apiData)
+          console.log(response.data.posts)
+          let resData = response.data.posts
+          for (let i = 0; i < resData.length; i++) {
+             console.log(resData[i].image)
+             if(resData[i].image){
+               resData[i].image = 'http://localhost:8056/uploads/'+ resData[i].image
+             }
+          }
+          this.postData = response.data.posts;
+          console.log('postData',this.postData)
         })
         .catch(error => {
           console.error('Error fetching data:', error);
