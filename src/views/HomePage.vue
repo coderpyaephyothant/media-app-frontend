@@ -1,6 +1,7 @@
 <template>
   <!-- Whats New Start -->
         <section class="whats-news-area px-0 py-0 mx-0 my-0">
+        <MyHeader @searchedData="updateData"/>
             <div class="container">
                 <div class="row" >
                     <div class="col-lg-12" style="padding:30px">
@@ -11,8 +12,6 @@
                                 <div class="properties__button">
                                     <!--Nav Button  -->
                                         <div class=" nav-tabs myColor"  id="nav-tab" role="tablist">
-                                            <a class="nav-item nav-link active myTextColor" id="nav-home-tab" data-toggle="tab" href="details.htmlnav-home" role="tab" aria-controls="nav-home" aria-selected="true">All</a
-                        >
                         <a
                           class="nav-item nav-link myTextColor"
                           id="nav-profile-tab"
@@ -21,47 +20,9 @@
                           role="tab"
                           aria-controls="nav-profile"
                           aria-selected="false"
-                          >Lifestyle</a
-                        >
-                        <a
-                          class="nav-item nav-link myTextColor"
-                          id="nav-contact-tab"
-                          data-toggle="tab"
-                          href="details.htmlnav-contact"
-                          role="tab"
-                          aria-controls="nav-contact"
-                          aria-selected="false"
-                          >Travel</a
-                        >
-                        <a
-                          class="nav-item nav-link myTextColor"
-                          id="nav-last-tab"
-                          data-toggle="tab"
-                          href="details.htmlnav-last"
-                          role="tab"
-                          aria-controls="nav-contact"
-                          aria-selected="false"
-                          >Fashion</a
-                        >
-                        <a
-                          class="nav-item nav-link myTextColor"
-                          id="nav-Sports"
-                          data-toggle="tab"
-                          href="details.htmlnav-nav-Sport"
-                          role="tab"
-                          aria-controls="nav-contact"
-                          aria-selected="false"
-                          >Sports</a
-                        >
-                        <a
-                          class="nav-item nav-link myTextColor"
-                          id="nav-technology"
-                          data-toggle="tab"
-                          href="details.htmlnav-techno"
-                          role="tab"
-                          aria-controls="nav-contact"
-                          aria-selected="false"
-                          >Technology</a
+                          v-for="(cat,index) in catData"
+                          :key="index"
+                          >{{cat}}</a
                         >
                       </div>
                     <!--End Nav Button  -->
