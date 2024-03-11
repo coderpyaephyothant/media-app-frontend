@@ -45,6 +45,23 @@ methods: {
 
       updateData(data){
         this.postData = data
+      },
+      // filtered post by category
+
+      filteredPostByCat(catId){
+        this.postData = []
+        const filterByCatUrl = 'http://localhost:8056/api/user/filtered-by-category'
+        let filteredData = { filteredByCategory: catId}
+        axios.post(filterByCatUrl, filteredData)
+        .then( (response)=> {
+          let resData = response.data.post;
+          for (let i = 0; i < resData.length; i++) {
+            if(resData[i].image){
+              resData[i].image = 'http://localhost:8056/uploads/'+ resData[i].image
+            }
+          }
+          this.postData = resData;
+        })
       }
 
   },

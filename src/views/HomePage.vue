@@ -12,18 +12,24 @@
                                 <div class="properties__button">
                                     <!--Nav Button  -->
                                         <div class=" nav-tabs myColor"  id="nav-tab" role="tablist">
-                        <a
+                          <div
                           class="nav-item nav-link myTextColor"
                           id="nav-profile-tab"
-                          data-toggle="tab"
-                          href="details.htmlnav-profile"
                           role="tab"
-                          aria-controls="nav-profile"
-                          aria-selected="false"
+                          @click="fetchData"
+                          >
+                          All
+                          </div>
+                        <div
+                          class="nav-item nav-link myTextColor"
+                          id="nav-profile-tab"
+                          role="tab"
                           v-for="(cat,index) in catData"
                           :key="index"
-                          >{{cat}}</a
-                        >
+                          @click="filteredPostByCat(cat.Category_id)"
+                          >
+                          {{cat.Title}}
+                          </div>
                       </div>
                     <!--End Nav Button  -->
                   </div>
