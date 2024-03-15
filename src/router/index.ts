@@ -10,6 +10,30 @@ const routes: Array<RouteRecordRaw> = [
     path: '/home-page',
     name:'homePage',
     component: () => import('../views/HomePage.vue')
+  },
+  {
+    path: '/post/:id/detail',
+    name:'postDetail',
+    component: () => import('../views/PostDetail.vue')
+  },
+  {
+    path:'/user-login',
+    name:'userLogin',
+    component: () => import('../views/LoginPage.vue')
+  },
+  {
+    path:'/user-profile',
+    name:'userProfilePage',
+    component: () => import('../views/UserProfile.vue')
+  },
+  {
+    path:'/user-404-error-page',
+    name:'userErrorPage',
+    component: () => import('../views/ErrorPage.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: { name: 'userErrorPage' }
   }
 ]
 

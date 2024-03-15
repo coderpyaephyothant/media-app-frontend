@@ -2,14 +2,24 @@
     <div>
          <!-- Header Start -->
         <div class="header-area">
-            <div class="main-header ">
+            <div class="main-header col-12">
                 <div class="header-top  d-none d-md-block">
                 </div>
                 <div class="header-mid d-none d-md-block myColor">
                     <div class="">
-                        <div class="row pl-5">
+                        <div class=" pl-5 d-flex justify-content-between">
                             <!-- Logo -->
-                            <h3 class="myTextColor">Oppa News</h3>
+                            <div>
+                                <router-link :to="{ name: 'home' }" class="myTextColor">
+                                    <h3 class="myTextColor myCursorPtr">Oppa News</h3>
+                                </router-link>
+                            </div>
+                            <div class="pr-5">
+                                <router-link v-if="!loggedIn" :to="{ name: 'userLogin' }" class="myTextColor">Login</router-link>
+                                <p v-else class="myTextColor" @click="userLogout" style="cursor:pointer;"><i class="fas fa-lock mr-1"></i>Logout</p>
+                                <router-link v-if="loggedIn" :to="{ name: 'userProfilePage' }" class="myTextColor" ><i class="fas fa-user mr-1"></i>Profile</router-link>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -18,35 +28,24 @@
                         <div class="row align-items-center" style="padding: 0px !important; ">
                             <div class="col-xl-10 col-lg-10 col-md-12 header-flex" >
                                 <!-- sticky -->
-                                <div class="sticky-logo">
-                                    <h3 class="myTextColor">Oppa News</h3>
+                                <div class="sticky-logo ">
+                                    <router-link :to="{ name: 'home' }" class="myTextColor">
+                                        <h3 class="myTextColor myCursorPtr">Oppa News</h3>
+                                    </router-link>      
+                                    <div>
+                                        <router-link v-if="!loggedIn" :to="{ name: 'userLogin' }" >
+                                            <h4 class="myTextColor ">Login</h4>
+                                        </router-link>
+                                            <p v-else @click="userLogout" class="myTextColor ">Logout</p>
+                                        
+                                    </div>
                                 </div>
                                 <!-- Main-menu -->
                                 <div class="main-menu d-none d-md-block">
                                         <ul id="navigation">
-                                            <li ><a class="myTextColor" href="index.html">Home</a></li>
-                                            <li ><a class="myTextColor" href="categori.html">Category</a></li>
-                                            <li ><a class="myTextColor" href="about.html">About</a></li>
-                                            <li ><a class="myTextColor" href="latest_news.html">Latest News</a></li>
-                                            <li ><a class="myTextColor" href="contact.html">Contact</a></li>
-                                            <li >
-                                           <a class="myTextColor" href="details.html">Pages</a>
-                                                <ul class="submenu">
-                                                    <li><a href="elements.html">Element</a></li>
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="single-blog.html">Blog Details</a></li>
-                                                    <li><a href="details.html">Categori Details</a></li>
-                                                </ul>
-                                            </li>
+                                            <li><router-link :to="{ name: 'home' }" class="myTextColor">Home</router-link></li>
+                                            <li><router-link :to="{ name: 'home' }" class="myTextColor">About</router-link></li>
                                         </ul>
-                                </div>
-                            </div>
-                            <div class="col-xl-2 col-lg-2 col-md-4">
-                                <div class="header-right-btn f-right d-none d-lg-block">
-                                    <i class="fas fa-search special-tag myTextColor"></i>
-                                    <div class="search-box">
-                                            <input @input="searchPost" v-model="searchInput" type="text" placeholder="Search"  />
-                                    </div>
                                 </div>
                             </div>
                             <!-- Mobile Menu -->
@@ -63,8 +62,16 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import axios from "axios"
 export default{
+    mounted(){
+        // checkLoginOrNot
+       this.$store.dispatch('checkTokenForLogIn')
+    },
+computed:{
+        ...mapGetters(['validToken','userData','loggedIn']),
+        },
 data(){
     return{
         searchInput:'',
@@ -85,14 +92,19 @@ methods:{
             }
           }
           this.$emit('searchedData',resData)
-          // this.postData = []
-        //   this.postData = resData;
-          // console.log(this.postData)
-          
         })
         .catch(function (error) {
           console.log(error);
         });
+      },
+      userLogout(){
+        this.$store.dispatch('setValidToken','')
+        this.$store.dispatch('setUserData',{})
+        this.$store.dispatch('setLoggedIn', false);
+        this.$router.push({
+            name:'userLogin'
+        });
+        localStorage.removeItem('token');
       }
 }
 }
