@@ -1,73 +1,45 @@
 <template>
   <!-- Whats New Start -->
-        <section class="whats-news-area px-0 py-0 mx-0 my-0">
+        <section class="whats-news-area">
             <div class="container">
                 <div class="row" >
                     <div class="col-lg-12" style="padding:30px">
                         <div class="row d-flex justify-content-between">
-                            <div class="col-lg-3 col-md-3">
-                            </div>
                             <div class="col-lg-9 col-md-9">
                                 <div class="properties__button">
                                     <!--Nav Button  -->
-                                        <div class=" nav-tabs myColor"  id="nav-tab" role="tablist">
-                                            <a class="nav-item nav-link active myTextColor" id="nav-home-tab" data-toggle="tab" href="details.htmlnav-home" role="tab" aria-controls="nav-home" aria-selected="true">All</a
-                        >
-                        <a
-                          class="nav-item nav-link myTextColor"
-                          id="nav-profile-tab"
-                          data-toggle="tab"
-                          href="details.htmlnav-profile"
-                          role="tab"
-                          aria-controls="nav-profile"
-                          aria-selected="false"
-                          >Lifestyle</a
-                        >
-                        <a
-                          class="nav-item nav-link myTextColor"
-                          id="nav-contact-tab"
-                          data-toggle="tab"
-                          href="details.htmlnav-contact"
-                          role="tab"
-                          aria-controls="nav-contact"
-                          aria-selected="false"
-                          >Travel</a
-                        >
-                        <a
-                          class="nav-item nav-link myTextColor"
-                          id="nav-last-tab"
-                          data-toggle="tab"
-                          href="details.htmlnav-last"
-                          role="tab"
-                          aria-controls="nav-contact"
-                          aria-selected="false"
-                          >Fashion</a
-                        >
-                        <a
-                          class="nav-item nav-link myTextColor"
-                          id="nav-Sports"
-                          data-toggle="tab"
-                          href="details.htmlnav-nav-Sport"
-                          role="tab"
-                          aria-controls="nav-contact"
-                          aria-selected="false"
-                          >Sports</a
-                        >
-                        <a
-                          class="nav-item nav-link myTextColor"
-                          id="nav-technology"
-                          data-toggle="tab"
-                          href="details.htmlnav-techno"
-                          role="tab"
-                          aria-controls="nav-contact"
-                          aria-selected="false"
-                          >Technology</a
-                        >
-                      </div>
-                    <!--End Nav Button  -->
-                  </div>
-                </div>
-              </div>
+                                      <div class=" nav-tabs myColor"  id="nav-tab" role="tablist">
+                                          <div
+                                          class="nav-item nav-link myTextColor myCursorPtr"
+                                          id="nav-profile-tab"
+                                          role="tab"
+                                          @click="fetchData"
+                                          >
+                                          All
+                                          </div>
+                                          <div
+                                            class="nav-item nav-link myTextColor myCursorPtr"
+                                            id="nav-profile-tab"
+                                            role="tab"
+                                            v-for="(cat,index) in catData"
+                                            :key="index"
+                                            @click="filteredPostByCat(cat.Category_id)"
+                                            >
+                                            {{cat.Title}}
+                                            </div>
+                                      </div>
+                                    <!--End Nav Button  -->
+                              </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-4">
+                                <div class="header-right-btn f-right d-none d-lg-block">
+                                    <i class="fas fa-search special-tag myTextColor"></i>
+                                    <div class="search-box">
+                                            <input @input="searchPost" v-model="searchInput" type="text" placeholder="Search"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
               <div class="row">
                 <div class="col-12">
                   <!-- Nav Card -->
@@ -80,19 +52,41 @@
                       aria-labelledby="nav-home-tab"
                     >
                       <div class="whats-news-caption">
-                        <div class="row">
-
+                            <div v-if="needToLogIn">
+                            <div class="alert alert-success alert-dismissible fade show alert-wrapper py-4 alertBg" role="alert">
+                            <strong>For More Post Details,</strong> You need to
+                            <router-link v-if="!loggedIn" :to="{ name: 'userLogin' }"> <strong class="text-primary" style="text-decoration: underline;">Login.</strong></router-link>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"  @click="closeAlert">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          </div>
+                        <div class="row" v-if="postData">
                           <!-- simple card bootsrap -->
                           <div class="d-flex flex-wrap"> 
-                            <div class="card bshadow" style="width:280px; height:380px; margin:5px" v-for="(post,index) in postData" :key="index" >
-                              <div class="bg-success" style="height:50%">
+                            <div class="card bshadow" style="width:280px; height:380px; margin:5px" v-for="(post,index) in postData" :key="index" @click="postDetail(post.post_id)" >
+                              <div class="" style="height:50%">
                                 <img class="" :src="post.image" alt="img" style="width:100%;height:100%">
                                   </div>
-                              <div class="card-body" style="height:50%;overflow: hidden;">
-                                <h5 class="card-title">{{post.title}}</h5>
+                              <div class="card-body" style="height:50%;overflow: hidden;padding:5px !important;">
+                                <div class="d-flex justify-content-between">
+                                  <div class="bg-white" style="width:80%">
+                                    <h5 class="card-title">{{post.title}}</h5>
+                                  </div>
+                                  <div>
+                                <span><i class="fas fa-eye"></i>{{post.views}}</span>
+                                  </div>
+                                </div>
                                 <p class="card-text" style="">{{post.description}}</p>
                               </div>
                             </div>
+                          </div>
+                        </div>
+                        <div v-else class="my-5">
+                          <div class="d-flex justify-content-center">
+                            <h3 class="myTextColor py-5">
+                            There is no data right now . . . . . 
+                            </h3>
                           </div>
                         </div>
                       </div>
@@ -158,4 +152,54 @@
 .myColor{
         background-color: #014f86 !important;
       }
+
+  .header-right-btn {
+      position: relative;
+      cursor: pointer;
+  }
+  .search-box {
+      position: absolute;
+      right: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: .3s;
+  }
+  .search-box input {
+      position: relative;
+      border: 1px solid#ddd;
+      padding-left: 10px;
+      color:#000;
+      width: 189px;
+      padding-right: 34px;
+      box-shadow: 0px 0px 36px 0pxrgba(142,142,142,0.1);
+      @include transition(.4s);
+      right: 24px;
+
+      top: -26px;
+  }
+  .search-box form button {
+      position: absolute;
+      right: 0px;
+      background: none;
+      border: none;
+      color: rgb(100, 99, 99);
+      cursor: pointer;
+      top: 2px;
+  }
+  .header-right-btn:hover .search-box {
+      visibility: visible;
+      opacity: 1;
+      transition: .3s;
+  }
+  .alert-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1000; /* Ensure the alert is above other content */
+}
+.alertBg{
+  background-color: #014f86 !important;
+  color: #a9d6e5 !important;
+}
 </style>
